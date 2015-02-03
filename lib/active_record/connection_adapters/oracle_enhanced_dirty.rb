@@ -15,9 +15,12 @@ module ActiveRecord #:nodoc:
             if column.type == :string && column.null && old_value.nil?
               new_value = nil if new_value == ''
             end
+
+            column.changed?(old_value, new_value, raw_value)
+          else
+            new_value != old_value
           end
 
-          column_for_attribute(attr).changed?(old_value, new_value, raw_value)
         end
 
         def non_zero?(value)
